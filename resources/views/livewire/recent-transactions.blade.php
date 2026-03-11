@@ -38,7 +38,7 @@ new class extends Component {
                 @foreach($transactions as $transaction)
                     <div class="flex items-center justify-between p-3 lg:p-4 bg-gray-50 rounded-lg lg:rounded-xl hover:bg-gray-100 transition-colors border border-gray-100">
                         <div class="flex-1">
-                            <!-- Kode Tiket -->
+                            <!-- Kode Order -->
                             <div class="flex items-center space-x-1.5 lg:space-x-2 mb-1 lg:mb-2">
                                 <span class="font-mono text-xs lg:text-sm font-bold text-gray-900">
                                     {{ strtoupper(substr($transaction->uuid, 0, 8)) }}
@@ -104,7 +104,7 @@ new class extends Component {
                 <p class="text-sm text-gray-400">Transaksi akan muncul di sini setelah kasir melakukan penjualan</p>
                 
                 @if(auth()->user()->role === 'kasir' || auth()->user()->role === 'admin')
-                    <a href="{{ route('pos.index') }}" class="inline-flex items-center mt-4 px-4 py-2 bg-[#1a4d2e] text-white text-sm font-semibold rounded-lg hover:bg-[#2d7a4f] transition-colors">
+                    <a href="{{ route('pos.index') }}" class="inline-flex items-center mt-4 px-4 py-2 bg-amber-600 text-white text-sm font-semibold rounded-lg hover:bg-orange-600 transition-colors">
                         <i class="fa-solid fa-plus mr-2"></i>
                         Buat Transaksi Baru
                     </a>

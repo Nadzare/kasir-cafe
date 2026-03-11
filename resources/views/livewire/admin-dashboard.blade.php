@@ -48,33 +48,33 @@ new #[Layout('layouts.app')] class extends Component {
         $totalExpenses = Expense::whereBetween('date', [$start, $end])
             ->sum('amount');
         
-        // Pendapatan dari tiket
-        $ticketRevenue = TransactionItem::whereHas('transaction', function($q) use ($start, $end) {
+        // Pendapatan dari makanan
+        $foodRevenue = TransactionItem::whereHas('transaction', function($q) use ($start, $end) {
             $q->whereBetween('created_at', [$start, $end])
               ->where('status', 'paid');
         })
         ->whereHas('product', function($q) {
-            $q->where('type', 'ticket');
+            $q->where('type', 'makanan');
         })
         ->sum('subtotal');
         
-        // Pendapatan dari parkir
-        $parkingRevenue = TransactionItem::whereHas('transaction', function($q) use ($start, $end) {
+        // Pendapatan dari minuman
+        $drinkRevenue = TransactionItem::whereHas('transaction', function($q) use ($start, $end) {
             $q->whereBetween('created_at', [$start, $end])
               ->where('status', 'paid');
         })
         ->whereHas('product', function($q) {
-            $q->where('type', 'parking');
+            $q->where('type', 'minuman');
         })
         ->sum('subtotal');
         
-        // Pendapatan dari fasilitas
-        $facilityRevenue = TransactionItem::whereHas('transaction', function($q) use ($start, $end) {
+        // Pendapatan dari dessert
+        $dessertRevenue = TransactionItem::whereHas('transaction', function($q) use ($start, $end) {
             $q->whereBetween('created_at', [$start, $end])
               ->where('status', 'paid');
         })
         ->whereHas('product', function($q) {
-            $q->whereIn('type', ['facility', 'addon']);
+            $q->where('type', 'dessert');
         })
         ->sum('subtotal');
         
@@ -83,13 +83,10 @@ new #[Layout('layouts.app')] class extends Component {
             ->where('status', 'paid')
             ->count();
         
-        // Total pengunjung (total quantity tiket)
-        $totalVisitors = TransactionItem::whereHas('transaction', function($q) use ($start, $end) {
+        // Total item terjual (total quantity semua produk)
+        $totalItemsSold = TransactionItem::whereHas('transaction', function($q) use ($start, $end) {
             $q->whereBetween('created_at', [$start, $end])
               ->where('status', 'paid');
-        })
-        ->whereHas('product', function($q) {
-            $q->where('type', 'ticket');
         })
         ->sum('quantity');
         
@@ -97,11 +94,11 @@ new #[Layout('layouts.app')] class extends Component {
             'total_revenue' => $totalRevenue,
             'total_expenses' => $totalExpenses,
             'net_income' => $totalRevenue - $totalExpenses,
-            'ticket_revenue' => $ticketRevenue,
-            'parking_revenue' => $parkingRevenue,
-            'facility_revenue' => $facilityRevenue,
+            'food_revenue' => $foodRevenue,
+            'drink_revenue' => $drinkRevenue,
+            'dessert_revenue' => $dessertRevenue,
             'total_transactions' => $totalTransactions,
-            'total_visitors' => $totalVisitors,
+            'total_items_sold' => $totalItemsSold,
         ];
     }
     
@@ -210,7 +207,7 @@ new #[Layout('layouts.app')] class extends Component {
 
             <!-- Statistics Cards -->
             <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 lg:gap-6 mb-4 lg:mb-6">
-                <div class="bg-gradient-to-br from-green-500 to-green-600 text-white p-4 lg:p-6 rounded-xl lg:rounded-2xl shadow-xl">
+                <div class="bg-gradient-to-br from-amber-500 to-orange-600 text-white p-4 lg:p-6 rounded-xl lg:rounded-2xl shadow-xl">
                     <div class="flex items-center justify-between mb-2 lg:mb-3">
                         <span class="text-white/80 text-xs lg:text-sm font-medium">Total Pendapatan</span>
                         <div class="bg-white/20 p-2 lg:p-2.5 rounded-lg lg:rounded-xl">
@@ -254,15 +251,15 @@ new #[Layout('layouts.app')] class extends Component {
                 
                 <div class="bg-gradient-to-br from-purple-500 to-purple-600 text-white p-6 rounded-2xl shadow-xl">
                     <div class="flex items-center justify-between mb-3">
-                        <span class="text-white/80 text-sm font-medium">Total Pengunjung</span>
+                        <span class="text-white/80 text-sm font-medium">Total Item Terjual</span>
                         <div class="bg-white/20 p-2.5 rounded-xl">
-                            <i class="fa-solid fa-users text-xl"></i>
+                            <i class="fa-solid fa-boxes-stacked text-xl"></i>
                         </div>
                     </div>
-                    <div class="text-3xl font-bold mb-1">{{ number_format($stats['total_visitors'] ?? 0) }}</div>
+                    <div class="text-3xl font-bold mb-1">{{ number_format($stats['total_items_sold'] ?? 0) }}</div>
                     <div class="text-xs text-white/70">
-                        <i class="fa-solid fa-user-group mr-1"></i>
-                        Visitors
+                        <i class="fa-solid fa-shopping-basket mr-1"></i>
+                        Items Sold
                     </div>
                 </div>
             </div>
@@ -272,23 +269,11 @@ new #[Layout('layouts.app')] class extends Component {
                 <div class="bg-white p-6 rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-all">
                     <div class="flex items-center justify-between">
                         <div>
-                            <div class="text-2xl font-bold text-blue-600">Rp {{ number_format($stats['ticket_revenue'] ?? 0, 0, ',', '.') }}</div>
-                            <div class="text-sm text-gray-600 mt-2 font-medium">Pendapatan Tiket</div>
-                        </div>
-                        <div class="bg-blue-50 p-4 rounded-2xl">
-                            <i class="fa-solid fa-ticket text-4xl text-blue-500"></i>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="bg-white p-6 rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-all">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <div class="text-2xl font-bold text-orange-600">Rp {{ number_format($stats['parking_revenue'] ?? 0, 0, ',', '.') }}</div>
-                            <div class="text-sm text-gray-600 mt-2 font-medium">Pendapatan Parkir</div>
+                            <div class="text-2xl font-bold text-orange-600">Rp {{ number_format($stats['food_revenue'] ?? 0, 0, ',', '.') }}</div>
+                            <div class="text-sm text-gray-600 mt-2 font-medium">Pendapatan Makanan</div>
                         </div>
                         <div class="bg-orange-50 p-4 rounded-2xl">
-                            <i class="fa-solid fa-car text-4xl text-orange-500"></i>
+                            <i class="fa-solid fa-utensils text-4xl text-orange-500"></i>
                         </div>
                     </div>
                 </div>
@@ -296,11 +281,23 @@ new #[Layout('layouts.app')] class extends Component {
                 <div class="bg-white p-6 rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-all">
                     <div class="flex items-center justify-between">
                         <div>
-                            <div class="text-2xl font-bold text-green-600">Rp {{ number_format($stats['facility_revenue'] ?? 0, 0, ',', '.') }}</div>
-                            <div class="text-sm text-gray-600 mt-2 font-medium">Pendapatan Fasilitas</div>
+                            <div class="text-2xl font-bold text-blue-600">Rp {{ number_format($stats['drink_revenue'] ?? 0, 0, ',', '.') }}</div>
+                            <div class="text-sm text-gray-600 mt-2 font-medium">Pendapatan Minuman</div>
                         </div>
-                        <div class="bg-green-50 p-4 rounded-2xl">
-                            <i class="fa-solid fa-building text-4xl text-green-500"></i>
+                        <div class="bg-blue-50 p-4 rounded-2xl">
+                            <i class="fa-solid fa-mug-hot text-4xl text-blue-500"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-6 rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-all">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <div class="text-2xl font-bold text-pink-600">Rp {{ number_format($stats['dessert_revenue'] ?? 0, 0, ',', '.') }}</div>
+                            <div class="text-sm text-gray-600 mt-2 font-medium">Pendapatan Dessert</div>
+                        </div>
+                        <div class="bg-pink-50 p-4 rounded-2xl">
+                            <i class="fa-solid fa-ice-cream text-4xl text-pink-500"></i>
                         </div>
                     </div>
                 </div>

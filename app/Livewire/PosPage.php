@@ -13,7 +13,7 @@ class PosPage extends Component
 {
     public $products = [];
     public $cart = [];
-    public $filterType = 'all'; // Filter: all, ticket, parking, facility, addon
+    public $filterType = 'all'; // Filter: all, makanan, minuman, dessert
     
     // Form fields
     public $customerName = '';
@@ -192,31 +192,23 @@ class PosPage extends Component
 
     /**
      * Calculate subtotal, discount, and grand total
-     * LOGIC DISKON ROMBONGAN: Tiket >= 50 dapat diskon 20% untuk total tiket
+     * Note: Diskon khusus dapat diterapkan untuk pembelian dalam jumlah besar
      */
     public function calculateTotal()
     {
         $this->totalAmount = 0;
         $this->discountAmount = 0;
         
-        $ticketTotal = 0;
-        $ticketQuantity = 0;
-        
         foreach ($this->cart as $item) {
             $itemSubtotal = $item['product']['price'] * $item['quantity'];
             $this->totalAmount += $itemSubtotal;
-            
-            // Pisahkan perhitungan tiket dan non-tiket
-            if ($item['product']['type'] === 'ticket') {
-                $ticketTotal += $itemSubtotal;
-                $ticketQuantity += $item['quantity'];
-            }
         }
         
-        // LOGIC DISKON: Jika tiket >= 50, diskon 20% HANYA untuk tiket
-        if ($ticketQuantity >= 50) {
-            $this->discountAmount = $ticketTotal * 0.20; // Diskon 20% dari total tiket
-        }
+        // Bisa ditambahkan logic diskon jika diperlukan
+        // Contoh: diskon 10% jika total >= 200.000
+        // if ($this->totalAmount >= 200000) {
+        //     $this->discountAmount = $this->totalAmount * 0.10;
+        // }
         
         $this->finalAmount = $this->totalAmount - $this->discountAmount;
     }

@@ -187,7 +187,7 @@ new #[Layout('layouts.app')] class extends Component {
                     </div>
 
                     <button wire:click="applyFilter" 
-                        class="px-6 py-2.5 bg-[#1a4d2e] text-white font-semibold rounded-xl hover:bg-[#2d7a4f] transition-all shadow-lg shadow-green-500/30">
+                        class="px-6 py-2.5 bg-amber-600 text-white font-semibold rounded-xl hover:bg-orange-600 transition-all shadow-lg shadow-orange-500/30">
                         <i class="fa-solid fa-filter mr-2"></i>
                         Terapkan Filter
                     </button>
@@ -197,7 +197,7 @@ new #[Layout('layouts.app')] class extends Component {
             <!-- Summary Cards -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-6 mb-4 lg:mb-6">
                 <!-- Total Pemasukan -->
-                <div class="bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl shadow-xl p-6 text-white">
+                <div class="bg-gradient-to-br from-amber-500 to-orange-600 rounded-2xl shadow-xl p-6 text-white">
                     <div class="flex items-center justify-between mb-2">
                         <span class="text-white/80 text-sm font-medium">Total Pemasukan</span>
                         <div class="bg-white/20 p-2 rounded-lg">
@@ -359,7 +359,7 @@ new #[Layout('layouts.app')] class extends Component {
 
                             <div class="md:col-span-3">
                                 <button type="submit" 
-                                    class="w-full md:w-auto px-6 py-2.5 bg-[#1a4d2e] text-white font-semibold rounded-xl hover:bg-[#2d7a4f] transition-all shadow-lg shadow-green-500/30">
+                                    class="w-full md:w-auto px-6 py-2.5 bg-amber-600 text-white font-semibold rounded-xl hover:bg-orange-600 transition-all shadow-lg shadow-orange-500/30">
                                     <i class="fa-solid fa-save mr-2"></i>
                                     Simpan Pengeluaran
                                 </button>

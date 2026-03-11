@@ -8,6 +8,9 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
+    <!-- FontAwesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
         /* Styling untuk Thermal Printer (58mm - 80mm) */
         body {
@@ -21,8 +24,9 @@
             max-width: 350px;
             margin: 20px auto;
             background: white;
-            padding: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 24px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            border-radius: 8px;
         }
         
         .dashed-line {
@@ -49,6 +53,7 @@
                 margin: 0;
                 padding: 10px;
                 box-shadow: none;
+                border-radius: 0;
             }
             
             /* Hide print button */
@@ -56,11 +61,10 @@
                 display: none !important;
             }
             
-            /* Optimize QR Code for print */
-            .qr-code {
-                image-rendering: pixelated;
-                image-rendering: -moz-crisp-edges;
-                image-rendering: crisp-edges;
+            /* Print background colors */
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
             }
             
             /* Page setup for thermal printer */
@@ -86,11 +90,16 @@
 <body>
     <div class="receipt-container">
         <!-- HEADER -->
-        <div class="text-center mb-4">
-            <h1 class="text-xl font-bold mb-1">TUKSIRAH KALI PEMALI</h1>
-            <p class="text-sm">Wisata Alam & Rekreasi</p>
-            <p class="text-xs text-gray-600">Jl. Raya Tuksirah, Kec. Pemali</p>
-            <p class="text-xs text-gray-600">Telp: (0281) 123-4567</p>
+        <div class="text-center mb-4 pb-2">
+            <div class="flex justify-center mb-3">
+                <img src="{{ asset('images/kndlogo.png') }}" alt="K&D Coffee" class="h-20 w-auto">
+            </div>
+            <h1 class="text-2xl font-bold mb-2 tracking-wide">K&D COFFEE</h1>
+            <p class="text-sm font-medium mb-1">Cafe & Resto</p>
+            <div class="text-xs text-gray-600 space-y-0.5">
+                <p>Jl. Raya Cafe No. 123, Kota</p>
+                <p>Telp: (0281) 999-8888</p>
+            </div>
         </div>
         
         <div class="dashed-line"></div>
@@ -154,22 +163,22 @@
         <div class="dashed-line"></div>
         
         <!-- SUMMARY -->
-        <div class="text-sm space-y-2 mb-3">
-            <div class="flex justify-between">
+        <div class="text-sm space-y-2 mb-4">
+            <div class="flex justify-between text-gray-700">
                 <span>Subtotal:</span>
-                <span>Rp {{ number_format($transaction->total_amount, 0, ',', '.') }}</span>
+                <span class="font-medium">Rp {{ number_format($transaction->total_amount, 0, ',', '.') }}</span>
             </div>
             
             @if($transaction->discount_amount > 0)
                 <div class="flex justify-between text-green-600 font-semibold">
-                    <span>Diskon Rombongan:</span>
+                    <span>Diskon:</span>
                     <span>- Rp {{ number_format($transaction->discount_amount, 0, ',', '.') }}</span>
                 </div>
             @endif
             
             <div class="dotted-line"></div>
             
-            <div class="flex justify-between text-lg font-bold">
+            <div class="flex justify-between text-base font-bold bg-gray-100 px-3 py-2 rounded mt-2">
                 <span>TOTAL BAYAR:</span>
                 <span>Rp {{ number_format($transaction->final_amount, 0, ',', '.') }}</span>
             </div>
@@ -184,51 +193,41 @@
         
         <div class="dashed-line"></div>
         
-        <!-- QR CODE -->
-        <div class="text-center my-4">
-            <div class="inline-block border-4 border-gray-800 p-2 qr-code">
-                {!! \SimpleSoftwareIO\QrCode\Facades\QrCode::size(150)->margin(1)->generate($transaction->uuid) !!}
-            </div>
-            <p class="text-xs text-gray-600 mt-2">Scan QR Code di Pintu Masuk</p>
-            <p class="text-[10px] font-mono text-gray-500 break-all mt-1">{{ $transaction->uuid }}</p>
-        </div>
-        
-        <div class="dashed-line"></div>
-        
         <!-- FOOTER -->
-        <div class="text-center text-xs text-gray-700 space-y-1">
-            <p class="font-bold">Terima Kasih Atas Kunjungan Anda!</p>
-            <p>🌳 Selamat Menikmati Wisata 🌳</p>
-            <p class="text-[10px] text-gray-500 mt-3">Simpan struk ini untuk validasi tiket</p>
+        <div class="text-center text-xs text-gray-700 space-y-2 py-2">
+            <p class="font-bold text-base">Terima Kasih!</p>
+            <p class="text-sm">Selamat Menikmati Hidangan</p>
+            <p class="text-xs font-semibold mt-2">~ K&D Coffee ~</p>
+            <p class="text-[10px] text-gray-500 mt-3">Simpan struk ini untuk transaksi Anda</p>
             <p class="text-[10px] text-gray-500">{{ $transaction->created_at->format('d M Y, H:i:s') }}</p>
         </div>
         
         <div class="dashed-line"></div>
         
         <!-- ACTION BUTTONS (Hidden on Print) -->
-        <div class="no-print mt-6 space-y-2">
+        <div class="no-print mt-6 space-y-3">
             <button 
                 onclick="window.print()" 
                 class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg shadow-lg transition duration-200 flex items-center justify-center"
             >
-                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
-                </svg>
-                🖨️ Cetak Struk
+                <i class="fas fa-print mr-2"></i>
+                Cetak Struk
             </button>
             
             <a 
                 href="{{ route('pos.index') }}" 
-                class="block w-full bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-4 rounded-lg shadow-lg text-center transition duration-200"
+                class="block w-full bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-4 rounded-lg shadow-lg text-center transition duration-200 flex items-center justify-center"
             >
-                ← Kembali ke Kasir (POS)
+                <i class="fas fa-arrow-left mr-2"></i>
+                Kembali ke Kasir (POS)
             </a>
             
             <a 
                 href="{{ route('dashboard') }}" 
-                class="block w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg shadow-lg text-center transition duration-200"
+                class="block w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 px-4 rounded-lg shadow-lg text-center transition duration-200 flex items-center justify-center"
             >
-                🏠 Ke Dashboard
+                <i class="fas fa-home mr-2"></i>
+                Ke Dashboard
             </a>
         </div>
     </div>

@@ -1,5 +1,5 @@
 <div>
-    @section('title', 'POS - Kasir | Wisata Tuksirah')
+    @section('title', 'POS - Kasir | Cafe')
     
     <!-- Page Header -->
     <x-slot name="header">
@@ -55,78 +55,72 @@
                                     <button 
                                         wire:click="setFilter('all')"
                                         class="px-4 lg:px-6 py-2 lg:py-2.5 rounded-full text-xs lg:text-sm font-bold transition-all duration-300 ease-out {{ $filterType === 'all' ? 'bg-gray-900 text-white shadow-lg scale-105' : 'bg-white text-gray-600 hover:bg-gray-100 hover:text-gray-900 border border-gray-200' }}">
-                                        Semua Produk
+                                        Semua Menu
                                     </button>
                                     <button 
-                                        wire:click="setFilter('ticket')"
-                                        class="px-4 lg:px-6 py-2 lg:py-2.5 rounded-full text-xs lg:text-sm font-bold transition-all duration-300 ease-out {{ $filterType === 'ticket' ? 'bg-gray-900 text-white shadow-lg scale-105' : 'bg-white text-gray-600 hover:bg-gray-100 hover:text-gray-900 border border-gray-200' }}">
-                                        Tiket
+                                        wire:click="setFilter('makanan')"
+                                        class="px-4 lg:px-6 py-2 lg:py-2.5 rounded-full text-xs lg:text-sm font-bold transition-all duration-300 ease-out {{ $filterType === 'makanan' ? 'bg-gray-900 text-white shadow-lg scale-105' : 'bg-white text-gray-600 hover:bg-gray-100 hover:text-gray-900 border border-gray-200' }}">
+                                        <i class="fas fa-utensils mr-1"></i> Makanan
                                     </button>
                                     <button 
-                                        wire:click="setFilter('parking')"
-                                        class="px-4 lg:px-6 py-2 lg:py-2.5 rounded-full text-xs lg:text-sm font-bold transition-all duration-300 ease-out {{ $filterType === 'parking' ? 'bg-gray-900 text-white shadow-lg scale-105' : 'bg-white text-gray-600 hover:bg-gray-100 hover:text-gray-900 border border-gray-200' }}">
-                                        Parkir
+                                        wire:click="setFilter('minuman')"
+                                        class="px-4 lg:px-6 py-2 lg:py-2.5 rounded-full text-xs lg:text-sm font-bold transition-all duration-300 ease-out {{ $filterType === 'minuman' ? 'bg-gray-900 text-white shadow-lg scale-105' : 'bg-white text-gray-600 hover:bg-gray-100 hover:text-gray-900 border border-gray-200' }}">
+                                        <i class="fas fa-mug-hot mr-1"></i> Minuman
                                     </button>
                                     <button 
-                                        wire:click="setFilter('facility')"
-                                        class="px-4 lg:px-6 py-2 lg:py-2.5 rounded-full text-xs lg:text-sm font-bold transition-all duration-300 ease-out {{ $filterType === 'facility' ? 'bg-gray-900 text-white shadow-lg scale-105' : 'bg-white text-gray-600 hover:bg-gray-100 hover:text-gray-900 border border-gray-200' }}">
-                                        Fasilitas
+                                        wire:click="setFilter('dessert')"
+                                        class="px-4 lg:px-6 py-2 lg:py-2.5 rounded-full text-xs lg:text-sm font-bold transition-all duration-300 ease-out {{ $filterType === 'dessert' ? 'bg-gray-900 text-white shadow-lg scale-105' : 'bg-white text-gray-600 hover:bg-gray-100 hover:text-gray-900 border border-gray-200' }}">
+                                        <i class="fas fa-ice-cream mr-1"></i> Dessert
                                     </button>
                                 </div>
                             </div>
 
-                            <!-- Grid Produk dengan Clean White Card & Vibrant Gradient Icon -->
+                            <!-- Grid Produk dengan Foto & Info -->
                             @php
-                                // Function untuk menentukan theme warna - Clean White Card dengan Vibrant Icon
+                                // Function untuk menentukan foto produk
+                                $getProductImage = function($type) {
+                                    if ($type === 'makanan') return asset('images/makanan.jpg');
+                                    if ($type === 'minuman') return asset('images/minuman.jpg');
+                                    if ($type === 'dessert') return asset('images/dessert.jpg');
+                                    return asset('images/makanan.jpg');
+                                };
+                                
+                                // Function untuk menentukan theme warna untuk kategori cafe
                                 $getProductTheme = function($product) {
-                                    $name = strtolower($product->name);
                                     $type = $product->type;
                                     
-                                    // Tiket: Emerald Vibrant (Hijau Tuksirah)
-                                    if ($type === 'ticket' || str_contains($name, 'tiket')) {
+                                    // Makanan: Orange Vibrant
+                                    if ($type === 'makanan') {
                                         return [
-                                            'icon_gradient' => 'bg-gradient-to-br from-emerald-500 to-green-400',
-                                            'text_color' => 'text-emerald-600',
-                                            'border_hover' => 'hover:border-emerald-300',
-                                            'ring' => 'group-hover:ring-2 group-hover:ring-emerald-200',
-                                            'shadow_hover' => 'hover:shadow-emerald-200',
-                                            'icon' => 'fa-ticket'
+                                            'text_color' => 'text-orange-600',
+                                            'border_hover' => 'hover:border-orange-300',
+                                            'ring' => 'group-hover:ring-2 group-hover:ring-orange-200',
                                         ];
                                     }
                                     
-                                    // Parkir: Blue Vibrant (Biru Transportasi)
-                                    if ($type === 'parking' || str_contains($name, 'parkir') || str_contains($name, 'motor') || str_contains($name, 'mobil')) {
-                                        $icon = str_contains($name, 'motor') ? 'fa-motorcycle' : 'fa-car-side';
+                                    // Minuman: Blue Vibrant
+                                    if ($type === 'minuman') {
                                         return [
-                                            'icon_gradient' => 'bg-gradient-to-br from-blue-500 to-cyan-400',
                                             'text_color' => 'text-blue-600',
                                             'border_hover' => 'hover:border-blue-300',
                                             'ring' => 'group-hover:ring-2 group-hover:ring-blue-200',
-                                            'shadow_hover' => 'hover:shadow-blue-200',
-                                            'icon' => $icon
                                         ];
                                     }
                                     
-                                    // Fasilitas: Violet Vibrant (Premium)
-                                    if ($type === 'facility' || str_contains($name, 'sewa') || str_contains($name, 'aula') || str_contains($name, 'gazebo')) {
+                                    // Dessert: Pink Vibrant
+                                    if ($type === 'dessert') {
                                         return [
-                                            'icon_gradient' => 'bg-gradient-to-br from-violet-500 to-purple-400',
-                                            'text_color' => 'text-purple-600',
-                                            'border_hover' => 'hover:border-purple-300',
-                                            'ring' => 'group-hover:ring-2 group-hover:ring-purple-200',
-                                            'shadow_hover' => 'hover:shadow-purple-200',
-                                            'icon' => 'fa-campground'
+                                            'text_color' => 'text-pink-600',
+                                            'border_hover' => 'hover:border-pink-300',
+                                            'ring' => 'group-hover:ring-2 group-hover:ring-pink-200',
                                         ];
                                     }
                                     
-                                    // Default: Orange Vibrant (Add-on)
+                                    // Default
                                     return [
-                                        'icon_gradient' => 'bg-gradient-to-br from-orange-500 to-amber-400',
-                                        'text_color' => 'text-orange-600',
-                                        'border_hover' => 'hover:border-orange-300',
-                                        'ring' => 'group-hover:ring-2 group-hover:ring-orange-200',
-                                        'shadow_hover' => 'hover:shadow-orange-200',
-                                        'icon' => 'fa-box'
+                                        'text_color' => 'text-amber-600',
+                                        'border_hover' => 'hover:border-amber-300',
+                                        'ring' => 'group-hover:ring-2 group-hover:ring-amber-200',
                                     ];
                                 };
                             @endphp
@@ -135,27 +129,32 @@
                                 @forelse($this->filteredProducts as $product)
                                     @php
                                         $theme = $getProductTheme($product);
+                                        $image = $getProductImage($product->type);
                                     @endphp
                                     
-                                    <!-- Clean White Card dengan Vibrant Gradient Icon -->
+                                    <!-- Product Card dengan Foto -->
                                     <button 
                                         wire:click="addToCart({{ $product->id }})"
-                                        class="group bg-white border border-gray-100 rounded-xl lg:rounded-2xl shadow-sm {{ $theme['border_hover'] }} {{ $theme['ring'] }} hover:shadow-lg transition-all duration-300 ease-out transform hover:-translate-y-1 active:scale-95 active:duration-100 text-left p-4 lg:p-6">
+                                        class="group bg-white border border-gray-100 rounded-xl lg:rounded-2xl shadow-sm {{ $theme['border_hover'] }} {{ $theme['ring'] }} hover:shadow-lg transition-all duration-300 ease-out transform hover:-translate-y-1 active:scale-95 active:duration-100 text-left overflow-hidden">
                                         
-                                        <!-- Vibrant Gradient Icon Container -->
-                                        <div class="{{ $theme['icon_gradient'] }} text-white shadow-md rounded-xl lg:rounded-2xl w-12 h-12 lg:w-16 lg:h-16 flex items-center justify-center mb-3 lg:mb-4 mx-auto group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
-                                            <i class="fa-solid {{ $theme['icon'] }} text-xl lg:text-2xl"></i>
+                                        <!-- Product Image -->
+                                        <div class="relative h-32 lg:h-40 overflow-hidden">
+                                            <img src="{{ $image }}" 
+                                                 alt="{{ $product->name }}" 
+                                                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                                            <!-- Gradient Overlay -->
+                                            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
                                         </div>
                                         
                                         <!-- Product Info -->
-                                        <div class="space-y-1 lg:space-y-2">
+                                        <div class="p-3 lg:p-4 space-y-1 lg:space-y-2">
                                             <!-- Nama Produk -->
-                                            <h4 class="font-semibold text-gray-700 text-center text-xs lg:text-sm leading-tight min-h-[2rem] lg:min-h-[2.5rem] flex items-center justify-center px-1">
+                                            <h4 class="font-semibold text-gray-800 text-xs lg:text-sm leading-tight min-h-[2rem] lg:min-h-[2.5rem] line-clamp-2">
                                                 {{ $product->name }}
                                             </h4>
                                             
-                                            <!-- Harga dengan Warna Senada Icon -->
-                                            <p class="{{ $theme['text_color'] }} font-bold text-base lg:text-lg text-center">
+                                            <!-- Harga -->
+                                            <p class="{{ $theme['text_color'] }} font-bold text-sm lg:text-base">
                                                 Rp {{ number_format($product->price, 0, ',', '.') }}
                                             </p>
                                         </div>
@@ -180,7 +179,7 @@
                         <div class="p-4 lg:p-6 bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200">
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center space-x-2 lg:space-x-3">
-                                    <div class="w-8 h-8 lg:w-10 lg:h-10 bg-[#1a4d2e] rounded-lg lg:rounded-xl flex items-center justify-center">
+                                    <div class="w-8 h-8 lg:w-10 lg:h-10 bg-amber-600 rounded-lg lg:rounded-xl flex items-center justify-center">
                                         <svg class="w-5 h-5 lg:w-6 lg:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                                         </svg>
@@ -338,32 +337,6 @@
                                     </button>
                                 </div>
 
-                                <!-- Info Diskon -->
-                                @if($discountAmount > 0)
-                                    <div class="mt-3 lg:mt-4 bg-green-50 border border-green-200 rounded-lg lg:rounded-xl p-3 lg:p-4">
-                                        <div class="flex items-start">
-                                            <svg class="w-5 h-5 text-green-600 mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                            </svg>
-                                            <div class="text-xs text-green-800">
-                                                <p class="font-semibold mb-1">Diskon Rombongan Aktif!</p>
-                                                <p>Anda mendapat potongan 20% untuk pembelian tiket ≥ 50 pax.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @else
-                                    <div class="mt-3 lg:mt-4 bg-blue-50 border border-blue-200 rounded-lg lg:rounded-xl p-3 lg:p-4">
-                                        <div class="flex items-start">
-                                            <svg class="w-4 h-4 lg:w-5 lg:h-5 text-blue-600 mr-2 lg:mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                            </svg>
-                                            <div class="text-xs text-blue-800">
-                                                <p class="font-semibold mb-1">Info Diskon Rombongan</p>
-                                                <p>Pembelian tiket ≥ 50 pax mendapat potongan harga 20%.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endif
                             @else
                                 <!-- Empty State -->
                                 <div class="text-center py-8 lg:py-12">

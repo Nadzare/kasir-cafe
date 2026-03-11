@@ -1,10 +1,10 @@
 <x-app-layout>
-    @section('title', 'Dashboard - Wisata Tuksirah')
+    @section('title', 'Dashboard - POS Kasir Cafe')
     
     <x-slot name="header">
         <div>
             <h2 class="font-bold text-2xl text-gray-900 leading-tight">Dashboard</h2>
-            <p class="text-sm text-gray-500 mt-1">Selamat Datang, <span class="font-semibold text-gray-700">{{ auth()->user()->name }}</span> 👋</p>
+            <p class="text-sm text-gray-500 mt-1">Selamat Datang, <span class="font-semibold text-gray-700">{{ auth()->user()->name }}</span> <i class="fas fa-hand-wave text-amber-600"></i></p>
         </div>
     </x-slot>
 
@@ -20,7 +20,7 @@
                 
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-4">
                     @if(auth()->user()->role === 'admin')
-                        <a href="{{ route('admin.dashboard') }}" class="group bg-gradient-to-br from-[#1a4d2e] to-[#2d7a4f] text-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition-all transform hover:scale-105">
+                        <a href="{{ route('admin.dashboard') }}" class="group bg-gradient-to-br from-amber-600 to-orange-700 text-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition-all transform hover:scale-105">
                             <div class="flex items-center mb-3">
                                 <div class="bg-white/20 p-3 rounded-xl mr-3">
                                     <i class="fa-solid fa-chart-line text-xl"></i>
@@ -39,19 +39,7 @@
                                 </div>
                                 <h4 class="text-lg font-bold">POS - Kasir</h4>
                             </div>
-                            <p class="text-sm text-white/80">Proses transaksi penjualan tiket</p>
-                        </a>
-                    @endif
-
-                    @if(auth()->user()->role === 'gatekeeper' || auth()->user()->role === 'admin')
-                        <a href="{{ route('scanner.index') }}" class="group bg-gradient-to-br from-purple-500 to-purple-600 text-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition-all transform hover:scale-105">
-                            <div class="flex items-center mb-3">
-                                <div class="bg-white/20 p-3 rounded-xl mr-3">
-                                    <i class="fa-solid fa-qrcode text-xl"></i>
-                                </div>
-                                <h4 class="text-lg font-bold">Scanner Gate</h4>
-                            </div>
-                            <p class="text-sm text-white/80">Validasi dan scan tiket pengunjung</p>
+                            <p class="text-sm text-white/80">Proses transaksi penjualan cafe</p>
                         </a>
                     @endif
                 </div>
@@ -71,24 +59,24 @@
             </div>
 
             <!-- Information Box -->
-            <div class="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-xl lg:rounded-2xl p-4 lg:p-6">
+            <div class="bg-gradient-to-r from-orange-50 to-amber-50 border border-orange-200 rounded-xl lg:rounded-2xl p-4 lg:p-6">
                 <div class="flex items-start">
-                    <div class="bg-green-100 p-2 lg:p-3 rounded-lg lg:rounded-xl mr-3 lg:mr-4">
-                        <i class="fa-solid fa-circle-info text-lg lg:text-xl text-green-700"></i>
+                    <div class="bg-orange-100 p-2 lg:p-3 rounded-lg lg:rounded-xl mr-3 lg:mr-4">
+                        <i class="fa-solid fa-circle-info text-lg lg:text-xl text-orange-700"></i>
                     </div>
                     <div class="flex-1">
-                        <h4 class="font-bold text-green-900 mb-2 lg:mb-3 text-base lg:text-lg">Informasi Sistem</h4>
-                        <ul class="space-y-1.5 lg:space-y-2 text-xs lg:text-sm text-green-800">
+                        <h4 class="font-bold text-orange-900 mb-2 lg:mb-3 text-base lg:text-lg">Informasi Sistem</h4>
+                        <ul class="space-y-1.5 lg:space-y-2 text-xs lg:text-sm text-orange-800">
                             <li class="flex items-start">
-                                <i class="fa-solid fa-check-circle text-green-600 mr-2 mt-0.5"></i>
-                                <span>Sistem Ticketing Internal untuk Tuksirah Kali Pemali</span>
+                                <i class="fa-solid fa-check-circle text-orange-600 mr-2 mt-0.5"></i>
+                                <span>Sistem POS Kasir untuk Cafe</span>
                             </li>
                             <li class="flex items-start">
-                                <i class="fa-solid fa-check-circle text-green-600 mr-2 mt-0.5"></i>
-                                <span>Diskon otomatis 20% untuk pembelian tiket rombongan ≥ 50 orang</span>
+                                <i class="fa-solid fa-check-circle text-orange-600 mr-2 mt-0.5"></i>
+                                <span>Kategori produk: Makanan, Minuman, dan Dessert</span>
                             </li>
                             <li class="flex items-start">
-                                <i class="fa-solid fa-check-circle text-green-600 mr-2 mt-0.5"></i>
+                                <i class="fa-solid fa-check-circle text-orange-600 mr-2 mt-0.5"></i>
                                 <span>Gunakan menu navigasi di samping untuk mengakses fitur sesuai role Anda</span>
                             </li>
                         </ul>

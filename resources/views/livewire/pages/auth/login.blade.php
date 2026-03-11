@@ -25,7 +25,7 @@ new #[Layout('layouts.guest')] class extends Component
 }; ?>
 
 <div>
-    @section('title', 'Login - Wisata Tuksirah')
+    @section('title', 'Login - K&D Coffee')
     
     <!-- Welcome Message -->
     <div class="text-center mb-8">
@@ -40,7 +40,7 @@ new #[Layout('layouts.guest')] class extends Component
         <!-- Email Address -->
         <div>
             <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">
-                <i class="fa-solid fa-envelope mr-2 text-[#1a4d2e]"></i>
+                <i class="fa-solid fa-envelope mr-2 text-amber-600"></i>
                 Email
             </label>
             <input 
@@ -51,7 +51,7 @@ new #[Layout('layouts.guest')] class extends Component
                 required 
                 autofocus 
                 autocomplete="username"
-                class="w-full px-4 py-3.5 bg-gray-50 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#1a4d2e] focus:border-[#1a4d2e] focus:bg-white transition-all duration-200"
+                class="w-full px-4 py-3.5 bg-gray-50 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-amber-600 focus:border-amber-600 focus:bg-white transition-all duration-200"
                 placeholder="nama@email.com"
             />
             <x-input-error :messages="$errors->get('form.email')" class="mt-2" />
@@ -60,7 +60,7 @@ new #[Layout('layouts.guest')] class extends Component
         <!-- Password -->
         <div>
             <label for="password" class="block text-sm font-semibold text-gray-700 mb-2">
-                <i class="fa-solid fa-lock mr-2 text-[#1a4d2e]"></i>
+                <i class="fa-solid fa-lock mr-2 text-amber-600"></i>
                 Password
             </label>
             <input 
@@ -70,7 +70,7 @@ new #[Layout('layouts.guest')] class extends Component
                 name="password" 
                 required 
                 autocomplete="current-password"
-                class="w-full px-4 py-3.5 bg-gray-50 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#1a4d2e] focus:border-[#1a4d2e] focus:bg-white transition-all duration-200"
+                class="w-full px-4 py-3.5 bg-gray-50 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-amber-600 focus:border-amber-600 focus:bg-white transition-all duration-200"
                 placeholder="••••••••"
             />
             <x-input-error :messages="$errors->get('form.password')" class="mt-2" />
@@ -83,14 +83,14 @@ new #[Layout('layouts.guest')] class extends Component
                     wire:model="form.remember" 
                     id="remember" 
                     type="checkbox" 
-                    class="rounded border-gray-300 text-[#1a4d2e] shadow-sm focus:ring-[#1a4d2e]" 
+                    class="rounded border-gray-300 text-amber-600 shadow-sm focus:ring-amber-600" 
                     name="remember"
                 >
                 <span class="ms-2 text-sm text-gray-600 font-medium">Ingat Saya</span>
             </label>
 
             @if (Route::has('password.request'))
-                <a class="text-sm text-[#1a4d2e] hover:text-[#2d7a4f] font-semibold transition-colors" href="{{ route('password.request') }}" wire:navigate>
+                <a class="text-sm text-amber-700 hover:text-orange-600 font-semibold transition-colors" href="{{ route('password.request') }}" wire:navigate>
                     Lupa Password?
                 </a>
             @endif
@@ -99,7 +99,7 @@ new #[Layout('layouts.guest')] class extends Component
         <!-- Login Button -->
         <button 
             type="submit"
-            class="w-full bg-gradient-to-r from-[#1a4d2e] to-[#2d7a4f] hover:from-[#143d24] hover:to-[#1a4d2e] text-white font-bold py-4 rounded-xl shadow-lg shadow-green-500/30 hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02]">
+            class="w-full bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-orange-500/30 hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02]">
             <i class="fa-solid fa-right-to-bracket mr-2"></i>
             Masuk ke Sistem
         </button>
@@ -108,18 +108,14 @@ new #[Layout('layouts.guest')] class extends Component
     <!-- Quick Login Hints (Optional) -->
     <div class="mt-8 pt-6 border-t border-gray-200">
         <p class="text-xs text-gray-500 text-center mb-3">Demo Credentials:</p>
-        <div class="grid grid-cols-3 gap-2 text-xs">
-            <div class="bg-green-50 p-2 rounded-lg text-center">
-                <p class="font-semibold text-green-700">Admin</p>
-                <p class="text-green-600">admin@</p>
+        <div class="grid grid-cols-2 gap-2 text-xs">
+            <div class="bg-orange-50 p-2 rounded-lg text-center">
+                <p class="font-semibold text-orange-700">Admin</p>
+                <p class="text-orange-600">admin@cafe.com</p>
             </div>
-            <div class="bg-blue-50 p-2 rounded-lg text-center">
-                <p class="font-semibold text-blue-700">Kasir</p>
-                <p class="text-blue-600">kasir@</p>
-            </div>
-            <div class="bg-purple-50 p-2 rounded-lg text-center">
-                <p class="font-semibold text-purple-700">Gate</p>
-                <p class="text-purple-600">gate@</p>
+            <div class="bg-amber-50 p-2 rounded-lg text-center">
+                <p class="font-semibold text-amber-700">Kasir</p>
+                <p class="text-amber-600">kasir@cafe.com</p>
             </div>
         </div>
     </div>

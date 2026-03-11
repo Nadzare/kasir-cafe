@@ -22,22 +22,16 @@ class DatabaseSeeder extends Seeder
         // ========================================
         $users = [
             [
-                'name' => 'Admin Tuksirah',
-                'email' => 'admin@tuksirah.com',
+                'name' => 'Admin Cafe',
+                'email' => 'admin@cafe.com',
                 'password' => Hash::make('password'),
                 'role' => 'admin',
             ],
             [
-                'name' => 'Kasir Tuksirah',
-                'email' => 'kasir@tuksirah.com',
+                'name' => 'Kasir Cafe',
+                'email' => 'kasir@cafe.com',
                 'password' => Hash::make('password'),
                 'role' => 'kasir',
-            ],
-            [
-                'name' => 'Gatekeeper Tuksirah',
-                'email' => 'gate@tuksirah.com',
-                'password' => Hash::make('password'),
-                'role' => 'gatekeeper',
             ],
         ];
 
@@ -48,43 +42,167 @@ class DatabaseSeeder extends Seeder
         $this->command->info('✅ Users created successfully!');
 
         // ========================================
-        // 2. SEEDER MASTER PRODUK DEFAULT
+        // 2. SEEDER MASTER PRODUK CAFE
         // ========================================
         $products = [
+            // === MAKANAN ===
             [
-                'name' => 'Tiket Masuk',
-                'type' => 'ticket',
-                'price' => 10000,
+                'name' => 'Nasi Goreng',
+                'type' => 'makanan',
+                'price' => 25000,
                 'is_stock_managed' => false,
-                'description' => 'Tiket masuk wisata Tuksirah Kali Pemali',
+                'description' => 'Nasi goreng spesial dengan telur dan ayam',
             ],
             [
-                'name' => 'Parkir Motor',
-                'type' => 'parking',
-                'price' => 3000,
+                'name' => 'Nasi Kebuli',
+                'type' => 'makanan',
+                'price' => 35000,
                 'is_stock_managed' => false,
-                'description' => 'Parkir kendaraan roda dua',
+                'description' => 'Nasi kebuli kaya rempah dengan daging kambing/sapi',
             ],
             [
-                'name' => 'Parkir Mobil',
-                'type' => 'parking',
+                'name' => 'Rice Bowl - Chicken Katsu',
+                'type' => 'makanan',
+                'price' => 30000,
+                'is_stock_managed' => false,
+                'description' => 'Rice bowl dengan chicken katsu crispy',
+            ],
+            [
+                'name' => 'Rice Bowl - Beef Teriyaki',
+                'type' => 'makanan',
+                'price' => 35000,
+                'is_stock_managed' => false,
+                'description' => 'Rice bowl dengan daging sapi teriyaki',
+            ],
+            [
+                'name' => 'Rice Bowl - Sambal Matah',
+                'type' => 'makanan',
+                'price' => 32000,
+                'is_stock_managed' => false,
+                'description' => 'Rice bowl dengan sambal matah khas Bali',
+            ],
+            
+            // === MINUMAN ===
+            [
+                'name' => 'Air Putih',
+                'type' => 'minuman',
                 'price' => 5000,
                 'is_stock_managed' => false,
-                'description' => 'Parkir kendaraan roda empat',
+                'description' => 'Air mineral kemasan',
             ],
             [
-                'name' => 'Sewa Aula',
-                'type' => 'facility',
-                'price' => 150000,
+                'name' => 'Es Teh',
+                'type' => 'minuman',
+                'price' => 8000,
                 'is_stock_managed' => false,
-                'description' => 'Sewa aula untuk acara',
+                'description' => 'Es teh manis segar',
             ],
             [
-                'name' => 'Sound System',
-                'type' => 'addon',
-                'price' => 50000,
+                'name' => 'Vanilla Latte',
+                'type' => 'minuman',
+                'price' => 25000,
                 'is_stock_managed' => false,
-                'description' => 'Sewa sound system untuk acara',
+                'description' => 'Kopi latte dengan vanilla cream',
+            ],
+            [
+                'name' => 'Matcha Latte',
+                'type' => 'minuman',
+                'price' => 28000,
+                'is_stock_managed' => false,
+                'description' => 'Teh hijau matcha dengan susu',
+            ],
+            [
+                'name' => 'Redvelvet Latte',
+                'type' => 'minuman',
+                'price' => 28000,
+                'is_stock_managed' => false,
+                'description' => 'Minuman redvelvet latte yang creamy',
+            ],
+            
+            // === DESSERT ===
+            [
+                'name' => 'Cheesecake',
+                'type' => 'dessert',
+                'price' => 35000,
+                'is_stock_managed' => false,
+                'description' => 'Kue keju lembut dengan topping berry',
+            ],
+            [
+                'name' => 'Brownies',
+                'type' => 'dessert',
+                'price' => 20000,
+                'is_stock_managed' => false,
+                'description' => 'Brownies coklat fudgy',
+            ],
+            [
+                'name' => 'Puding',
+                'type' => 'dessert',
+                'price' => 15000,
+                'is_stock_managed' => false,
+                'description' => 'Puding lembut aneka rasa',
+            ],
+            [
+                'name' => 'Es Krim',
+                'type' => 'dessert',
+                'price' => 18000,
+                'is_stock_managed' => false,
+                'description' => 'Es krim vanilla, coklat, dan strawberry',
+            ],
+            [
+                'name' => 'Gelato',
+                'type' => 'dessert',
+                'price' => 25000,
+                'is_stock_managed' => false,
+                'description' => 'Gelato premium Italia',
+            ],
+            [
+                'name' => 'Tiramisu',
+                'type' => 'dessert',
+                'price' => 38000,
+                'is_stock_managed' => false,
+                'description' => 'Tiramisu klasik Italia',
+            ],
+            [
+                'name' => 'Waffle',
+                'type' => 'dessert',
+                'price' => 30000,
+                'is_stock_managed' => false,
+                'description' => 'Waffle crispy dengan topping madu',
+            ],
+            [
+                'name' => 'Crepes',
+                'type' => 'dessert',
+                'price' => 28000,
+                'is_stock_managed' => false,
+                'description' => 'Crepes dengan berbagai topping',
+            ],
+            [
+                'name' => 'Salad Buah',
+                'type' => 'dessert',
+                'price' => 22000,
+                'is_stock_managed' => false,
+                'description' => 'Salad buah segar dengan yogurt',
+            ],
+            [
+                'name' => 'Mousse',
+                'type' => 'dessert',
+                'price' => 32000,
+                'is_stock_managed' => false,
+                'description' => 'Mousse coklat lembut',
+            ],
+            [
+                'name' => 'Macarons',
+                'type' => 'dessert',
+                'price' => 40000,
+                'is_stock_managed' => false,
+                'description' => 'Macarons Perancis aneka rasa (6 pcs)',
+            ],
+            [
+                'name' => 'Poffertjes',
+                'type' => 'dessert',
+                'price' => 25000,
+                'is_stock_managed' => false,
+                'description' => 'Mini pancake Belanda dengan butter',
             ],
         ];
 
@@ -97,9 +215,8 @@ class DatabaseSeeder extends Seeder
         $this->command->info('=======================================');
         $this->command->info('📝 DEFAULT LOGIN CREDENTIALS:');
         $this->command->info('=======================================');
-        $this->command->info('👤 Admin     : admin@tuksirah.com');
-        $this->command->info('👤 Kasir     : kasir@tuksirah.com');
-        $this->command->info('👤 Gatekeeper: gate@tuksirah.com');
+        $this->command->info('👤 Admin     : admin@cafe.com');
+        $this->command->info('👤 Kasir     : kasir@cafe.com');
         $this->command->info('🔒 Password  : password');
         $this->command->info('=======================================');
     }

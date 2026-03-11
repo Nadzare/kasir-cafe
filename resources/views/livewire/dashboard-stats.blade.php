@@ -19,25 +19,15 @@ new class extends Component {
         // 1. Total Pendapatan Hari Ini (Sum total_amount transaksi 'paid')
         $incomeToday = (clone $todayTransactions)->sum('total_amount');
 
-        // 2. Tiket Terjual Hari Ini (Count quantity dari transaction_items untuk produk type 'ticket')
-        $ticketsSold = TransactionItem::whereHas('transaction', function($query) use ($today) {
+        // 2. Menu Terjual Hari Ini (Count quantity dari semua transaction_items)
+        $menuSold = TransactionItem::whereHas('transaction', function($query) use ($today) {
             $query->whereDate('created_at', $today)
                   ->where('status', 'paid');
-        })
-        ->whereHas('product', function($query) {
-            $query->where('type', 'ticket');
         })
         ->sum('quantity');
 
-        // 3. Kendaraan Masuk (Count quantity dari transaction_items untuk produk type 'parking')
-        $vehiclesIn = TransactionItem::whereHas('transaction', function($query) use ($today) {
-            $query->whereDate('created_at', $today)
-                  ->where('status', 'paid');
-        })
-        ->whereHas('product', function($query) {
-            $query->where('type', 'parking');
-        })
-        ->sum('quantity');
+        // 3. Total Order Hari Ini (Count transaksi)
+        $totalOrders = (clone $todayTransactions)->count();
 
         // 4. Pengeluaran Operasional Hari Ini
         // Pastikan tabel expenses ada, jika belum, return 0 dulu.
@@ -47,8 +37,8 @@ new class extends Component {
 
         return [
             'incomeToday' => $incomeToday,
-            'ticketsSold' => $ticketsSold,
-            'vehiclesIn' => $vehiclesIn,
+            'ticketsSold' => $menuSold,
+            'vehiclesIn' => $totalOrders,
             'expenseToday' => $expenseToday,
         ];
     }
@@ -79,28 +69,28 @@ new class extends Component {
             </div>
         </div>
 
-        <!-- Card 2: Tiket Terjual -->
-        <div class="bg-gradient-to-r from-emerald-500 to-green-400 rounded-xl lg:rounded-2xl shadow-xl p-4 lg:p-6 text-white transform hover:scale-105 transition-all duration-300">
+        <!-- Card 2: Menu Terjual -->
+        <div class="bg-gradient-to-r from-orange-500 to-amber-400 rounded-xl lg:rounded-2xl shadow-xl p-4 lg:p-6 text-white transform hover:scale-105 transition-all duration-300">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-white/80 text-xs lg:text-sm font-medium mb-1 lg:mb-2">Tiket Terjual</p>
+                    <p class="text-white/80 text-xs lg:text-sm font-medium mb-1 lg:mb-2">Menu Terjual</p>
                     <h3 class="text-2xl lg:text-3xl font-bold">{{ number_format($ticketsSold) }}</h3>
                 </div>
                 <div class="bg-white/20 p-2 lg:p-3 rounded-full">
-                    <i class="fa-solid fa-ticket text-xl lg:text-2xl"></i>
+                    <i class="fa-solid fa-utensils text-xl lg:text-2xl"></i>
                 </div>
             </div>
         </div>
 
-        <!-- Card 3: Total Parkir -->
-        <div class="bg-gradient-to-r from-orange-500 to-yellow-400 rounded-xl lg:rounded-2xl shadow-xl p-4 lg:p-6 text-white transform hover:scale-105 transition-all duration-300">
+        <!-- Card 3: Total Order -->
+        <div class="bg-gradient-to-r from-amber-600 to-yellow-500 rounded-xl lg:rounded-2xl shadow-xl p-4 lg:p-6 text-white transform hover:scale-105 transition-all duration-300">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-white/80 text-xs lg:text-sm font-medium mb-1 lg:mb-2">Kendaraan Masuk</p>
+                    <p class="text-white/80 text-xs lg:text-sm font-medium mb-1 lg:mb-2">Total Order</p>
                     <h3 class="text-2xl lg:text-3xl font-bold">{{ number_format($vehiclesIn) }}</h3>
                 </div>
                 <div class="bg-white/20 p-3 rounded-full">
-                    <i class="fa-solid fa-car text-2xl"></i>
+                    <i class="fa-solid fa-shopping-cart text-2xl"></i>
                 </div>
             </div>
         </div>

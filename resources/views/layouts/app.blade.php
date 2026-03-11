@@ -8,7 +8,7 @@
         <!-- Favicon -->
         <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
 
-        <title>@yield('title', $title ?? config('app.name', 'Wisata Tuksirah'))</title>
+        <title>@yield('title', $title ?? config('app.name', 'Cafe POS')))</title>
 
         <!-- Modern Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -49,7 +49,7 @@
 
             <!-- Sidebar -->
             <aside 
-                class="fixed inset-y-0 left-0 z-50 bg-gradient-to-b from-[#1a4d2e] to-[#143d24] transform transition-all duration-300 ease-in-out shadow-2xl"
+                class="fixed inset-y-0 left-0 z-50 bg-gradient-to-b from-amber-700 to-orange-900 transform transition-all duration-300 ease-in-out shadow-2xl"
                 :class="{
                     '-translate-x-full': !sidebarOpen,
                     'translate-x-0': sidebarOpen,
@@ -59,11 +59,11 @@
                 }">
                 <div class="flex flex-col h-full">
                     <!-- Logo & Brand -->
-                    <div class="flex items-center justify-center h-20 bg-[#143d24] border-b border-[#1a4d2e] shadow-sm overflow-hidden relative z-10">
-                        <a href="{{ route('dashboard') }}" class="flex items-center justify-center w-full h-full">
-                            <img src="{{ asset('images/logotuk.png') }}"
-                                 alt="Logo Tuksirah"
-                                 class="h-full w-auto object-contain transition-transform duration-300 scale-[1.6] hover:scale-[1.65] origin-center">
+                    <div class="flex items-center justify-center h-24 bg-orange-900 border-b border-amber-700 shadow-sm overflow-hidden relative z-10 px-4">
+                        <a href="{{ route('dashboard') }}" class="flex items-center justify-center w-full h-full py-2">
+                            <img src="{{ asset('images/kndlogo.png') }}"
+                                 alt="Logo Cafe"
+                                 class="max-h-20 w-auto object-contain transition-transform duration-300 hover:scale-105 origin-center">
                         </a>
                     </div>
 
@@ -92,18 +92,6 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                                 </svg>
                                 <span x-show="sidebarExpanded" x-transition class="font-medium whitespace-nowrap">Point of Sale</span>
-                            </a>
-                        @endif
-
-                        @if(in_array($userRole, ['gatekeeper', 'admin']))
-                            <!-- Scanner -->
-                            <a href="{{ route('scanner.index') }}" 
-                               @click="sidebarOpen = false"
-                               class="flex items-center space-x-3 px-4 py-3.5 rounded-xl transition-all duration-200 group {{ request()->routeIs('scanner.index') ? 'bg-white/15 text-white shadow-lg backdrop-blur-sm' : 'text-white/70 hover:bg-white/10 hover:text-white' }}">
-                                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
-                                </svg>
-                                <span x-show="sidebarExpanded" x-transition class="font-medium whitespace-nowrap">Scanner Tiket</span>
                             </a>
                         @endif
 
@@ -144,7 +132,7 @@
                     <!-- User Info & Logout -->
                     <div class="border-t border-white/10 p-4 space-y-3">
                         <div class="flex items-center space-x-3" x-show="sidebarExpanded" x-transition>
-                            <div class="w-11 h-11 bg-gradient-to-br from-green-400 to-green-600 rounded-xl flex items-center justify-center shadow-lg ring-2 ring-white/20 flex-shrink-0">
+                            <div class="w-11 h-11 bg-gradient-to-br from-amber-400 to-orange-600 rounded-xl flex items-center justify-center shadow-lg ring-2 ring-white/20 flex-shrink-0">
                                 <span class="text-white font-bold text-sm">{{ strtoupper(substr(auth()->user()->name, 0, 2)) }}</span>
                             </div>
                             <div class="flex-1 min-w-0">
@@ -154,7 +142,7 @@
                         </div>
                         
                         <div x-show="!sidebarExpanded" x-transition class="flex justify-center">
-                            <div class="w-11 h-11 bg-gradient-to-br from-green-400 to-green-600 rounded-xl flex items-center justify-center shadow-lg ring-2 ring-white/20">
+                            <div class="w-11 h-11 bg-gradient-to-br from-amber-400 to-orange-600 rounded-xl flex items-center justify-center shadow-lg ring-2 ring-white/20">
                                 <span class="text-white font-bold text-sm">{{ strtoupper(substr(auth()->user()->name, 0, 2)) }}</span>
                             </div>
                         </div>
@@ -204,7 +192,7 @@
                                     <p class="text-sm font-semibold text-gray-900">{{ auth()->user()->name }}</p>
                                     <p class="text-xs text-gray-500 capitalize font-medium">{{ auth()->user()->role }}</p>
                                 </div>
-                                <div class="w-11 h-11 bg-gradient-to-br from-[#1a4d2e] to-[#143d24] rounded-xl flex items-center justify-center shadow-lg ring-2 ring-green-500/20">
+                                <div class="w-11 h-11 bg-gradient-to-br from-amber-700 to-orange-900 rounded-xl flex items-center justify-center shadow-lg ring-2 ring-orange-500/20">
                                     <span class="text-white font-bold text-sm">{{ strtoupper(substr(auth()->user()->name, 0, 2)) }}</span>
                                 </div>
                             </div>
